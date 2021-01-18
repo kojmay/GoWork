@@ -1,0 +1,245 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>中国移动通信集团公司 EOMS四期系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/cmcceoms/css/style/css/login.css" type=text/css rel=stylesheet />
+<script src="/cmcceoms/scripts/jquery.js" type="text/javascript"></script> 
+<script type=text/javascript>
+
+$(document).ready(function(){
+	$("#tab_ps").click(function(){
+	    $(".2d").css('display','block'); 
+		$(".ps").css('display','none'); 
+	  });
+	$("#tab_2d").click(function(){
+	    $(".ps").css('display','block'); 
+		$(".2d").css('display','none'); 
+	  });
+	
+	/*
+	$("#login").click(function(){
+	    $(".error").css('display','block'); 
+	  });
+	$(".close").click(function(){
+	    $(".error").css('display','none'); 
+	  });
+	 */
+});
+
+function loading(base){
+	if($("#loading").length == 0){
+		var html = "<span id='loading' style=' position: absolute; top:0px;left:0px;display:none'><img src='"+base+"images/default/loading.gif'></img>请稍等...</span>";
+		$("body").append($(html));
+		$("#loading").ajaxStart(function(){
+		   $(this).fadeIn();
+		}); 
+		$("#loading").ajaxStop(function(){
+		   $(this).fadeOut("slow");
+		}); 
+	}
+}
+function forgetpassword(){
+	$('#ps').hide();
+	$('#ps2').show();
+	$('#forget_username').val($('#username').val());
+}
+
+function closepassword(){
+	$('#ps2').hide();
+	$('#ps').show();
+}
+
+function dologin(){
+	var username = $('#username').val();
+	if($.trim(username) == ''){
+		alert('用户名不可为空');
+		$('#username').focus();
+		return false;
+	}
+	var params = $('#login_form').serialize();
+	$.ajax({
+		url: '/cmcceoms/roles/login.do',
+		type: 'POST',
+		dataType: 'xml',
+		data:params,
+		success: dologinhandler
+	});
+}
+function OnloneCount(){
+	$.ajax({
+	url:"/cmcceoms/OnloneCount?num="+new Date().getTime(),
+	method:"POST",
+	dataType:"text",
+	success:function(text){
+	}
+	});
+}
+function dologinhandler(xml){
+	var ok;
+	var change = false;
+	var username = $.trim($('#username').val());
+	$(xml).find("root").each(function(){
+		ok = $(this).attr("success");
+	});
+
+	if(change){
+		window.location.href='/cmcceoms/roles/changePwd.do';
+		return;
+	}
+	var fail = $(xml).find('error');
+	fail.each(function(){
+		alert($(this).text());
+	});	
+	if("true" == ok){
+		OnloneCount();
+		window.location.href='/cmcceoms/common/jsp/index.jsp';
+	}
+	return false;
+}
+
+function doforgetpassword(){
+	var username = $('#forget_username').val();
+	if($.trim(username) == ''){
+		alert('用户名不可为空');
+		$('#forget_username').focus();
+		return false;
+	}
+	var mobile = $('#mobile').val();
+	if($.trim(mobile) == ''){
+		alert('请填写用户注册时填写的手机号码或邮箱地址接收密码');
+		$('#mobile').focus();
+		return false;
+	}
+	var ismail = (mobile.indexOf('@')>-1)?true:false;
+	if(ismail){
+		if(!mobile.match(/\b[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}\b/i)){
+			alert('邮箱地址不正确');
+			$('#mobile').focus();
+			return false;
+		}
+	}else{
+		if(!mobile.match(/^1[0-9]{10}$/i)){
+			alert('手机号码不正确');
+			$('#mobile').focus();
+			return false;
+		}
+	}
+	var params='key1='+username+'&mobile='+mobile;
+	$.ajax({
+		url: '/cmcceoms/roles/forgetpassword.do',
+		type: 'POST',
+		dataType: 'xml',
+		data:params,
+		success: doforgetpasswordhandler
+	});
+	
+	function doforgetpasswordhandler(xml){
+		var message = $(xml).find('message');
+		if(message.length>0){
+			closepassword();
+			message.each(function(){
+				alert($(this).text());
+			});
+			$('#password').focus();
+			return true;
+		}
+		var fail = $(xml).find('error');
+		fail.each(function(){
+			alert($(this).text());
+		});
+		return false;
+	}
+}
+$(document).ready(function(){
+	$('#username,#password').keydown(function(event){
+		if(event.keyCode == 13){
+			dologin();
+		}
+	})
+	$('#forget_username,#mobile').keydown(function(event){
+		if(event.keyCode == 13){
+			doforgetpassword();
+		}
+	})
+	loading('/cmcceoms/');
+	$("#loginbutton").ajaxStart(function(){
+	   $(this).attr('disabled','true');
+	}); 
+	$("#loginbutton").ajaxStop(function(){
+	   $(this).attr('disabled','');
+	}); 
+});
+</script>
+</head>
+<body onload=document.login_form.username.focus();>
+
+	<div class="login" >
+		<div class="login_box">
+			<!-- 常规登录  -->
+			<div class="ps" id="ps" >
+				<form id='login_form' name=login_form method=post action="/cmcceoms/roles/loginverify.jsp">
+					<!-- 
+					<div class="jiao" id="tab_ps" ></div><span class="note"><s><i></i></s>扫描二维码下载APP系统</span>
+					 -->
+					<h1 class="logo"></h1>
+					<p>
+						<input type="text" class="onfocus" placeholder="用户名" title="用户名" id="username" name="key1"/>
+					</p>
+					<p>
+						<input type="password" class="onblur" placeholder="密码" title="密码" name="key2" id="password"/>
+					</p>
+					<p>
+						<a href="javascript:void(0);" onclick="forgetpassword();">忘记密码</a>
+					</p>
+					<p><input type="button" class="btn_login" id="login" onclick="dologin()"/></p>
+					<div class="copyright">中国移动通信集团公司<br />
+					<p><span>维护热线电话：</span>13439499670；<span>维护邮箱：</span>jt_eoms@139.com</p>
+					</div>
+				</form>
+			</div>
+			<!-- 密码找回  -->
+			<div class="ps" id="ps2" style="display:none">
+				<form id='password_form' name=password_form method=post action="/cmcceoms/roles/loginverify.jsp">
+					<h1 class="logo"></h1>
+					<p>
+						<input type="text" class="onfocus" placeholder="用户名" title="用户名" id="forget_username" name="forget_username"/>
+					</p>
+					<p>
+						<input type="text" class="onblur" placeholder="手机号或邮箱" title="手机号或邮箱" name="mobile" id="mobile"/>
+					</p>
+					<p>
+						<a href="javascript:void(0);" onclick="doforgetpassword();">找回密码</a>
+						&nbsp;&nbsp;
+						<a href="javascript:void(0);" onclick="closepassword();">返回登录</a>
+					</p>
+					<div class="copyright">中国移动通信集团公司<br />
+					<p><span>维护热线电话：</span>13439499670；<span>维护邮箱：</span>jt_eoms@139.com</p>
+					</div>
+				</form>
+			</div>
+			<!-- 二维码登录 
+			<div class="2d" id="2d" style="display:none;">
+				<div class="jiao" id="tab_2d"></div>
+				<h1 class="logo"></h1>
+				<div class="scan_2d"></div>
+				<div class="copyright">中国移动通信集团公司	</div>
+			</div>
+			 -->
+		</div>
+		<!--登录出错，提示信息 -->
+		<div class="error"  >
+			<p>Sorry，登录名或密码错误</p>
+			<hr/>
+			<p><span>维护热线电话：</span>13439499670；<span>维护邮箱：</span>jt_eoms@139.com</p>
+			<b class="close"></b>
+		</div>
+	</div>
+
+</body>
+</html>

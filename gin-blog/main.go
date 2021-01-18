@@ -1,21 +1,29 @@
 package main
 
 import (
-	"fmt"
-    "net/http"
-	
-	"github.com/kojmay/GoWork/gin-blog/routers"
-	"github.com/kojmay/GoWork/gin-blog/pkg/setting"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
+var router *gin.Engine
+
 func main() {
-    router := routers.InitRouter()
-    s := &http.Server{
-        Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
-        Handler:        router,
-        ReadTimeout:    setting.ReadTimeout,
-        WriteTimeout:   setting.WriteTimeout,
-        MaxHeaderBytes: 1 << 20,
-    }
-    s.ListenAndServe()
+	router := gin.Default()
+
+	router.LoadHTMLGlob("templates/*")
+
+	initRoutes()
+
+	router.Run()
+}
+
+func showIndexPage(c *gin.Context) {
+	c.HTML(
+		http.StatusOK,
+		"index.html",
+		gin.H{
+			"title": "Home Page",
+		},
+	)
 }

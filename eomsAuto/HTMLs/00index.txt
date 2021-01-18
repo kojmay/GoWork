@@ -1,0 +1,31 @@
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>中国移动通信集团公司 电子运维系统(V4.0)-[梅海峰]</title>
+		<link href="/cmcceoms/css/style_new.css" type="text/css" rel="stylesheet" />
+		<link rel="Shortcut Icon" href="/cmcceoms/favicon.ico" />
+		<script src="/cmcceoms/scripts/jquery.js" type="text/javascript" /> 
+		<script type="text/javascript">
+			 function  tuichu(){
+			 	if(event.clientX>document.body.clientWidth-20 && event.clientY < 0 || event.altKey){  
+		        	window.frames["topFrame"].outLog();
+		        	window.open("/cmcceoms/common/jsp/logout.jsp");
+		        }  
+			 }
+		</script>
+	</head>
+	
+	<frameset id="portalFrm" name="portalFrm" rows="132,*" frameborder="no" framespacing="0" onbeforeunload="tuichu();">
+		<noframes><body>Your browser does not handle frames!</body></noframes>
+		<frame id="topFrame" name="topFrame" src="top.jsp" noresize scrolling="no" frameborder="0" />
+		
+		<frame id="mainFrame" name="mainFrame" src=main.jsp noresize frameborder="0" />
+	</frameset>
+</html>

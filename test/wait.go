@@ -1,27 +1,27 @@
 package main
 
-import(
+import (
+	"fmt"
 	"sync"
 	"time"
-	"fmt"
 )
 
-func main() {
+func main4() {
 	var wg sync.WaitGroup
 
 	var gs [5]struct {
-		id int "id"
+		id     int "id"
 		result int "result"
 	}
 
-	for i:=0; i<len(gs); i++ {
+	for i := 0; i < len(gs); i++ {
 		wg.Add(1)
 
 		go func(id int) {
 			defer wg.Done()
 
 			gs[id].id = id
-			gs[id].result = (id +1) * 100
+			gs[id].result = (id + 1) * 100
 
 			time.Sleep(time.Second)
 			println("goroutine", id, "done.")
@@ -33,4 +33,4 @@ func main() {
 	fmt.Println("%v\n", gs)
 	println("main exit.")
 
- }
+}

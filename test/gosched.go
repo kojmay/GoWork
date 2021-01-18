@@ -1,21 +1,21 @@
 package main
 
-import(
+import (
 	"runtime"
 )
 
-func main() {
+func main1() {
 	runtime.GOMAXPROCS(1)
 	exit := make(chan struct{})
 
 	go func() {
 		defer close(exit)
 
-		go func() {		// 任务b
+		go func() { // 任务b
 			println("b")
 		}()
 
-		for i := 0; i<4; i++{ 	// 任务a
+		for i := 0; i < 4; i++ { // 任务a
 			println("a:", i)
 
 			if i == 1 {

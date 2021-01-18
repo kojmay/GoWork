@@ -1,0 +1,789 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>待办查询</title>
+    <link rel="stylesheet" href="/cmcceoms/css/style_expo.css" type="text/css" />
+	<script src="/cmcceoms/scripts/style.js" type="text/javascript"></script>
+	<script src="/cmcceoms/scripts/datepicker/WdatePicker.js" type="text/javascript"></script>
+	<script src="/cmcceoms/scripts/jquery.js" type="text/javascript"></script>
+	
+	<style type="text/css">
+		a {
+			font-size:12px;
+			text-decoration:none;
+			color:#333;
+			font-family:"Microsoft yahei";
+		}
+		a:link {
+			font-size:12px;
+			text-decoration:none;
+			color:#333;
+		}
+		a:visted {
+		 font-size:12px;
+		 text-decoration:none;
+		 color:#333;
+		}
+		a:hover {
+			font-size:12px;
+			text-decoration:none;
+			color:#5080B0;
+		}
+	</style>
+	
+	<script type="text/javascript">
+	//修正透明PNG
+	fixie6('/cmcceoms/');
+	//修正窗口
+	fixwindow(0,100);
+		function tranferPage(type)
+		{
+    		var pageCount=document.getElementById("pageCount").value;
+    		var pageNumber=document.getElementById("pageNumber").value;
+    		if(pageNumber=="")
+    			pageNumber="1";
+    					
+			if(type=="frist")
+			{
+				if(pageNumber!="1")
+				{
+			    	document.getElementById("pageNumber").value="1";
+		    		document.QueryForm.submit();
+	    		}
+    		}
+    		else if(type=="previous")
+    		{
+    			var intpageNumber=parseInt(pageNumber);
+    			if(intpageNumber>1)
+    			{
+    				intpageNumber--;
+				    document.getElementById("pageNumber").value=intpageNumber;
+			    	document.QueryForm.submit();    				
+    			}
+    		}	
+    		else if(type=="next")
+    		{
+    			var intpageNumber=parseInt(pageNumber);
+    			var intpageCount=parseInt(pageCount);
+    			if(intpageCount>intpageNumber)
+    			{
+    				intpageNumber++;
+				    document.getElementById("pageNumber").value=intpageNumber;
+			    	document.QueryForm.submit();    				
+    			}
+    			
+    		}
+    		else if(type=="end")
+    		{
+    			if(document.getElementById("pageNumber").value!=pageCount)
+    			{
+    				document.getElementById("pageNumber").value=pageCount;
+	    			document.QueryForm.submit();
+	    		}
+    		}    		    		
+		}
+    	function ConditionDivSet()
+    	{
+	    	if(document.getElementById("isfirst").value!="1")
+	    	{
+	    		if(document.getElementById("quary").style.display=="")
+		    		document.getElementById("quary").style.display="none";
+		    	else
+		    		document.getElementById("quary").style.display="";
+		    }
+    	}	
+    	function btn_submit()
+    	{
+    		document.getElementById("pageNumber").value="1";
+    		document.QueryForm.submit(); 
+    	}
+    	function btn_refurbish()
+    	{
+    		document.QueryForm.submit(); 
+    	}
+    	
+    	var rKey = "eomsListRefresh";
+    	function onload() {
+    		document.getElementById("isfirst").value="2";
+    		sessionStorage.removeItem(rKey);
+    	}
+    	window.onfocus = function() {
+    		if(sessionStorage.getItem(rKey)) {
+    			sessionStorage.removeItem(rKey);
+    			document.QueryForm.submit();
+    		}
+    	}
+    	window.onblur = function() {
+    		sessionStorage.setItem(rKey, "true");
+    	}
+    	
+    	function ConditionDivSet()
+    	{
+    		if(document.getElementById("ConditionDiv").style.display=="")
+	    		document.getElementById("ConditionDiv").style.display="none";
+	    	else
+	    		document.getElementById("ConditionDiv").style.display="";
+    	}    	
+    	function SortQuery(sortFiled)
+    	{
+    		document.getElementById("txtSortfiled").value=sortFiled;
+    		if(document.getElementById("sortType").value!="1")
+    		{
+    			document.getElementById("sortType").value="1"
+    		}
+  			else
+  			{
+  				document.getElementById("sortType").value="0"
+  			}    		
+    		document.QueryForm.submit();
+    	}
+    	function zz_reload() 
+    	{
+        	document.all.tags("form")[0].submit();
+        }
+       	function EditListCount() 
+       	{
+       		document.getElementById("pageSize").value = document.getElementById("listCount").value;
+       		document.QueryForm.submit();
+       	}
+	</script>
+
+  </head>
+
+  <body onLoad="onload()">
+    
+
+     <form name="QueryForm" method="post">
+		<div class="toolbar">
+		<span class="search" onClick="ConditionDivSet()" title="搜索">搜索</span>
+		<span class="refresh" onClick="btn_refurbish()" title="刷新">刷新</span>
+		
+		
+		<div class="getpage">
+			<div class="font">			
+				每页
+				<select id="listCount" name="listCount" onChange="EditListCount()" style="width:50px;">
+				<option value='20'>20</option><option value='50'>50</option><option value='100'>100</option>
+				</select>
+				条
+			</div>
+			<div class="first" onClick="return tranferPage('frist');" title='第一页'></div>
+			<div class="back" onClick="return tranferPage('previous');" title='上一页' ></div>
+			<div class="font">1/321</div>
+			<div class="next" onClick="return tranferPage('next');" title='下一页' ></div>
+			<div class="end" onClick="return tranferPage('end');"title='最后一页' ></div>
+			<div class="font">共3206条</div>
+		</div>
+		<input type="hidden" id="pageNumber" name="pageNumber" value="1">
+		<input type="hidden" id="pageCount" name="pageCount" value="321">
+		<input type="hidden" id="pageSize" name="pageSize" value="10">
+		<input type="hidden" id="isfirst" name="isfirst" value="2">
+	   </div>
+			<div id="ConditionDiv"  style="display:none">
+				<table width='97%' align='center'> <tr><td style='width:10%'><td style='width:23%'><td style='width:10%'><td style='width:23%'><td style='width:10%'><td style='width:23%'></tr>	<tr><td>工单主题</td><td colspan='1'>	<input type='text' name='BaseSummary' style='width:100%' value=''></td><td>工单状态</td><td colspan='1'>	<select name='BaseStatus' style='width:100%' >		<option value=''></option >		<option value='待处理'>待处理</option >		<option value='处理中'>处理中</option >		<option value='待审批'>待审批</option >		<option value='审批不通过'>审批不通过</option >		<option value='已作废'>已作废</option >		<option value='已关闭'>已关闭</option >		<option value='质检中'>质检中</option >		<option value='已质检'>已质检</option >		<option value='待审批'>待审批</option >		<option value='需求分析'>需求分析</option >		<option value='需求实现中'>需求实现中</option >		<option value='需求开发审批中'>需求开发审批中</option >		<option value='需求实施中'>需求实施中</option >		<option value='回复申请待归档'>回复申请待归档</option >		<option value='回复申请已归档'>回复申请已归档</option >		<option value='待暂存'>待暂存</option >		<option value='已暂存'>已暂存</option >		<option value='需求挂起'>需求挂起</option >		<option value='取消需求'>取消需求</option >		<option value='不入库'>不入库</option >		<option value='测试中'>测试中</option >		<option value='开发中'>开发中</option >		<option value='待正式上线'>待正式上线</option >		<option value='待归档'>待归档</option >		<option value='入网申请待受理'>入网申请待受理</option >		<option value='入网申请待评审'>入网申请待评审</option >		<option value='入网申请待审核'>入网申请待审核</option >		<option value='入网申请待审批'>入网申请待审批</option >		<option value='入网测试中'>入网测试中</option >		<option value='测试结果待评审'>测试结果待评审</option >		<option value='测试结果待审核'>测试结果待审核</option >	</select></td><td>工单流水号</td><td colspan='1'>	<input type='text' name='BaseSN' style='width:100%' value=''></td>	</tr>	<tr><td>建单时间</td><td colspan='1'>	<input type='text' name='BaseCreateDate1' style='width:100%' onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  value=''></td><td>至</td><td colspan='1'>	<input type='text' name='BaseCreateDate2' style='width:100%' onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  value=''></td></table>
+ 			   <div align="center">
+ 			    	<input id="btnSearch" class="button" type="button" onClick=" btn_submit()" value="搜索" >&nbsp;
+ 			    	<input id="btnReset"  class="button" type="reset" value="重置">
+ 				</div>					
+								
+			</div>
+			<div id="center">
+  			<table id="searchTbl" class="searchtable" border="0" cellpadding="0" cellspacing="0">
+  				<tr class="tabletitle_likebpp">		
+  					<td onClick="SortQuery('BaseSN')" style="cursor:hand;">
+  						
+						<font color=>工单流水号</font>
+  					</td>
+  					<td onClick="SortQuery('assginee,groupname')" style="cursor:hand;">
+  						  					
+  						<font color=>处理组/人</font>
+  					</td>
+  					<td onClick="SortQuery('FlagType')" style="cursor:hand;">
+  						   						
+  						<font color=>操作类型</font>
+  					</td>
+  					
+  					<td onClick="SortQuery('BaseDealOutTime')" style="cursor:hand;">
+  						   					
+  						<font color=>处理时限</font>
+  					</td> 					
+  					<td onClick="SortQuery('StDate')" style="cursor:hand;">
+  						   					
+  						<font color=green>分派时间↓</font>
+  					</td>
+  					<td style="width:50px;"><nobr>操作状态</nobr></td>
+  					<td style="width:50px;"><nobr>是否受理</nobr></td>
+  					<td><nobr>标记</nobr></td>
+  				</tr>
+  			
+  				
+  				
+  				<tr class="tablecontent_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=69db76e59f304354a2500dda642e79c4&taskID=99150da62f554f559533ba65a8b6b5e1&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000607');return false" target="_blank">
+  							JT-051-20200812-000607
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=69db76e59f304354a2500dda642e79c4&taskID=99150da62f554f559533ba65a8b6b5e1&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000607');return false" target="_blank">
+  							承载传输T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=69db76e59f304354a2500dda642e79c4&taskID=99150da62f554f559533ba65a8b6b5e1&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000607');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=69db76e59f304354a2500dda642e79c4&taskID=99150da62f554f559533ba65a8b6b5e1&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000607');return false" target="_blank">
+							2020-08-12 23:35:49
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=69db76e59f304354a2500dda642e79c4&taskID=99150da62f554f559533ba65a8b6b5e1&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000607');return false" target="_blank">
+							2020-08-12 15:35:49
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=69db76e59f304354a2500dda642e79c4&taskID=99150da62f554f559533ba65a8b6b5e1&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000607');return false" target="_blank">
+							待处理
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=69db76e59f304354a2500dda642e79c4&taskID=99150da62f554f559533ba65a8b6b5e1&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000607');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=69db76e59f304354a2500dda642e79c4&taskID=99150da62f554f559533ba65a8b6b5e1&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000607');return false" target="_blank">
+  							故障处理工单：佛山:5971-三水乐平海尔洗衣机事业部IP(普通)-4_TND2EF8T.02-ETH发生ETH_LOS集客告警；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=bc84870b3e9b4948a8145aefc4e30c56&taskID=b01a715efd504882bdf9e3374b496d70&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000063');return false" target="_blank">
+  							JT-056-20200811-000063
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=bc84870b3e9b4948a8145aefc4e30c56&taskID=b01a715efd504882bdf9e3374b496d70&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000063');return false" target="_blank">
+  							核心网专业T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=bc84870b3e9b4948a8145aefc4e30c56&taskID=b01a715efd504882bdf9e3374b496d70&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000063');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=bc84870b3e9b4948a8145aefc4e30c56&taskID=b01a715efd504882bdf9e3374b496d70&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000063');return false" target="_blank">
+							2020-08-13 14:02:52
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=bc84870b3e9b4948a8145aefc4e30c56&taskID=b01a715efd504882bdf9e3374b496d70&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000063');return false" target="_blank">
+							2020-08-12 15:12:27
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=bc84870b3e9b4948a8145aefc4e30c56&taskID=b01a715efd504882bdf9e3374b496d70&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000063');return false" target="_blank">
+							处理中
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=bc84870b3e9b4948a8145aefc4e30c56&taskID=b01a715efd504882bdf9e3374b496d70&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000063');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=bc84870b3e9b4948a8145aefc4e30c56&taskID=b01a715efd504882bdf9e3374b496d70&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000063');return false" target="_blank">
+  							投诉处理工单：【物联网投诉工单】客户反馈物联网卡掉线（烦请转杭州无线处理）；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=474df7940c3042a1973fc01d10f39c0a&taskID=888f18118dae46d5952c459196b9d2c3&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000036');return false" target="_blank">
+  							JT-056-20200811-000036
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=474df7940c3042a1973fc01d10f39c0a&taskID=888f18118dae46d5952c459196b9d2c3&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000036');return false" target="_blank">
+  							核心网专业T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=474df7940c3042a1973fc01d10f39c0a&taskID=888f18118dae46d5952c459196b9d2c3&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000036');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=474df7940c3042a1973fc01d10f39c0a&taskID=888f18118dae46d5952c459196b9d2c3&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000036');return false" target="_blank">
+							2020-08-13 11:11:41
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=474df7940c3042a1973fc01d10f39c0a&taskID=888f18118dae46d5952c459196b9d2c3&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000036');return false" target="_blank">
+							2020-08-12 15:04:11
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=474df7940c3042a1973fc01d10f39c0a&taskID=888f18118dae46d5952c459196b9d2c3&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000036');return false" target="_blank">
+							处理中
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=474df7940c3042a1973fc01d10f39c0a&taskID=888f18118dae46d5952c459196b9d2c3&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000036');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=474df7940c3042a1973fc01d10f39c0a&taskID=888f18118dae46d5952c459196b9d2c3&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000036');return false" target="_blank">
+  							投诉处理工单：【物联网投诉工单】福建天元物联卡4G网络无法联网的问题（请转派福建无线处理）；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=7116c2ac60b14f9d8ad80a058626b163&taskID=e480d0fa290542e7b3f5192c695a4d25&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000408');return false" target="_blank">
+  							JT-051-20200812-000408
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=7116c2ac60b14f9d8ad80a058626b163&taskID=e480d0fa290542e7b3f5192c695a4d25&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000408');return false" target="_blank">
+  							承载传输T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=7116c2ac60b14f9d8ad80a058626b163&taskID=e480d0fa290542e7b3f5192c695a4d25&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000408');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=7116c2ac60b14f9d8ad80a058626b163&taskID=e480d0fa290542e7b3f5192c695a4d25&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000408');return false" target="_blank">
+							2020-08-14 10:14:01
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=7116c2ac60b14f9d8ad80a058626b163&taskID=e480d0fa290542e7b3f5192c695a4d25&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000408');return false" target="_blank">
+							2020-08-12 14:52:52
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=7116c2ac60b14f9d8ad80a058626b163&taskID=e480d0fa290542e7b3f5192c695a4d25&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000408');return false" target="_blank">
+							处理中
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=7116c2ac60b14f9d8ad80a058626b163&taskID=e480d0fa290542e7b3f5192c695a4d25&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000408');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=7116c2ac60b14f9d8ad80a058626b163&taskID=e480d0fa290542e7b3f5192c695a4d25&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000408');return false" target="_blank">
+  							故障处理工单：国际政企专网:湖北咸宁咸安温泉新大楼(16509)-武汉纸坊(16508)主光双向中断（OLP备用光缆）；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=4028ec1dca2c4c3ba0cbf57999571fb9&taskID=b6a8569e27dd4318ac914909852de937&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000550');return false" target="_blank">
+  							JT-051-20200812-000550
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=4028ec1dca2c4c3ba0cbf57999571fb9&taskID=b6a8569e27dd4318ac914909852de937&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000550');return false" target="_blank">
+  							核心网专业T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=4028ec1dca2c4c3ba0cbf57999571fb9&taskID=b6a8569e27dd4318ac914909852de937&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000550');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=4028ec1dca2c4c3ba0cbf57999571fb9&taskID=b6a8569e27dd4318ac914909852de937&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000550');return false" target="_blank">
+							2020-08-14 14:05:00
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=4028ec1dca2c4c3ba0cbf57999571fb9&taskID=b6a8569e27dd4318ac914909852de937&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000550');return false" target="_blank">
+							2020-08-12 14:05:00
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=4028ec1dca2c4c3ba0cbf57999571fb9&taskID=b6a8569e27dd4318ac914909852de937&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000550');return false" target="_blank">
+							待处理
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=4028ec1dca2c4c3ba0cbf57999571fb9&taskID=b6a8569e27dd4318ac914909852de937&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000550');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=4028ec1dca2c4c3ba0cbf57999571fb9&taskID=b6a8569e27dd4318ac914909852de937&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000550');return false" target="_blank">
+  							故障处理工单：NFV_华中大区:APP-HZZZhaISBG001BHW-03AHW011+2020-08-12 13:15:00+S-CSCF初始注册成功率低于二级门限；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044764&processid=000000010404449&processtype=DEAL','集团客户投诉工单','JT-346-200811-00035');return false" target="_blank">
+  							JT-346-200811-00035
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044764&processid=000000010404449&processtype=DEAL','集团客户投诉工单','JT-346-200811-00035');return false" target="_blank">
+  							集团客户投诉处理组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044764&processid=000000010404449&processtype=DEAL','集团客户投诉工单','JT-346-200811-00035');return false" target="_blank">
+  							主办
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044764&processid=000000010404449&processtype=DEAL','集团客户投诉工单','JT-346-200811-00035');return false" target="_blank">
+							2020-08-12 15:59:04
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044764&processid=000000010404449&processtype=DEAL','集团客户投诉工单','JT-346-200811-00035');return false" target="_blank">
+							2020-08-12 11:09:48
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044764&processid=000000010404449&processtype=DEAL','集团客户投诉工单','JT-346-200811-00035');return false" target="_blank">
+							处理中
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044764&processid=000000010404449&processtype=DEAL','集团客户投诉工单','JT-346-200811-00035');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044764&processid=000000010404449&processtype=DEAL','集团客户投诉工单','JT-346-200811-00035');return false" target="_blank">
+  							集团客户投诉工单：签署省份未知：深圳市腾讯计算机系统有限公司反馈-1.2020-08-11 15:12:24,广东移动 到 江苏、浙江 丢包24.4%（请派广东省及骨干省份处理）；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=e8b2fc2d26bb49faa20903fc7e2e7c70&taskID=2a1c692625554539a74f185b1006f2bd&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000464');return false" target="_blank">
+  							JT-051-20200812-000464
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=e8b2fc2d26bb49faa20903fc7e2e7c70&taskID=2a1c692625554539a74f185b1006f2bd&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000464');return false" target="_blank">
+  							核心网专业T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=e8b2fc2d26bb49faa20903fc7e2e7c70&taskID=2a1c692625554539a74f185b1006f2bd&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000464');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=e8b2fc2d26bb49faa20903fc7e2e7c70&taskID=2a1c692625554539a74f185b1006f2bd&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000464');return false" target="_blank">
+							2020-08-14 11:08:06
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=e8b2fc2d26bb49faa20903fc7e2e7c70&taskID=2a1c692625554539a74f185b1006f2bd&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000464');return false" target="_blank">
+							2020-08-12 11:08:06
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=e8b2fc2d26bb49faa20903fc7e2e7c70&taskID=2a1c692625554539a74f185b1006f2bd&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000464');return false" target="_blank">
+							待处理
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=e8b2fc2d26bb49faa20903fc7e2e7c70&taskID=2a1c692625554539a74f185b1006f2bd&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000464');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=e8b2fc2d26bb49faa20903fc7e2e7c70&taskID=2a1c692625554539a74f185b1006f2bd&mode=MODIFY&sid=4925656156666','故障处理工单','JT-051-20200812-000464');return false" target="_blank">
+  							故障处理工单：NFV_华南大区:APP-HNGZhnq5GMC01AHW-03AHW012+2020-08-12 10:53:06+[频次]MsgRouting与NGMCSIPAdapter断连；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=55d901f5552744968088c8b3f2a871c4&taskID=0c2cef169e9240ee93d2c18c20ba603e&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200810-000054');return false" target="_blank">
+  							JT-056-20200810-000054
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=55d901f5552744968088c8b3f2a871c4&taskID=0c2cef169e9240ee93d2c18c20ba603e&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200810-000054');return false" target="_blank">
+  							核心网专业T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=55d901f5552744968088c8b3f2a871c4&taskID=0c2cef169e9240ee93d2c18c20ba603e&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200810-000054');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=55d901f5552744968088c8b3f2a871c4&taskID=0c2cef169e9240ee93d2c18c20ba603e&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200810-000054');return false" target="_blank">
+							2020-08-12 12:12:50
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=55d901f5552744968088c8b3f2a871c4&taskID=0c2cef169e9240ee93d2c18c20ba603e&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200810-000054');return false" target="_blank">
+							2020-08-12 10:48:43
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=55d901f5552744968088c8b3f2a871c4&taskID=0c2cef169e9240ee93d2c18c20ba603e&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200810-000054');return false" target="_blank">
+							处理中
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=55d901f5552744968088c8b3f2a871c4&taskID=0c2cef169e9240ee93d2c18c20ba603e&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200810-000054');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppyellow.png' title='未完成,已超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=55d901f5552744968088c8b3f2a871c4&taskID=0c2cef169e9240ee93d2c18c20ba603e&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200810-000054');return false" target="_blank">
+  							投诉处理工单：【物联网投诉工单】北京树米网络科技有限公司物联卡2G网络频繁离线问题（请转派北京无线处理）；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=c3ed6ee5c3ae4d22aa5f01bd859d45ab&taskID=ce7a10c6e44b4e3d9ba5ca86045cdd41&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000064');return false" target="_blank">
+  							JT-056-20200811-000064
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=c3ed6ee5c3ae4d22aa5f01bd859d45ab&taskID=ce7a10c6e44b4e3d9ba5ca86045cdd41&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000064');return false" target="_blank">
+  							核心网专业T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=c3ed6ee5c3ae4d22aa5f01bd859d45ab&taskID=ce7a10c6e44b4e3d9ba5ca86045cdd41&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000064');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=c3ed6ee5c3ae4d22aa5f01bd859d45ab&taskID=ce7a10c6e44b4e3d9ba5ca86045cdd41&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000064');return false" target="_blank">
+							2020-08-13 15:03:59
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=c3ed6ee5c3ae4d22aa5f01bd859d45ab&taskID=ce7a10c6e44b4e3d9ba5ca86045cdd41&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000064');return false" target="_blank">
+							2020-08-12 10:40:45
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=c3ed6ee5c3ae4d22aa5f01bd859d45ab&taskID=ce7a10c6e44b4e3d9ba5ca86045cdd41&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000064');return false" target="_blank">
+							处理中
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=c3ed6ee5c3ae4d22aa5f01bd859d45ab&taskID=ce7a10c6e44b4e3d9ba5ca86045cdd41&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000064');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_CCH&baseID=c3ed6ee5c3ae4d22aa5f01bd859d45ab&taskID=ce7a10c6e44b4e3d9ba5ca86045cdd41&mode=MODIFY&sid=4925656156666','投诉处理工单','JT-056-20200811-000064');return false" target="_blank">
+  							投诉处理工单：【物联网投诉工单】客户物联卡2g信号无法上网问题（请转派吉林无线处理）；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044698&processid=000000010404437&processtype=DEAL','集团客户投诉工单','JT-346-200810-00016');return false" target="_blank">
+  							JT-346-200810-00016
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044698&processid=000000010404437&processtype=DEAL','集团客户投诉工单','JT-346-200810-00016');return false" target="_blank">
+  							集团客户投诉处理组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044698&processid=000000010404437&processtype=DEAL','集团客户投诉工单','JT-346-200810-00016');return false" target="_blank">
+  							主办
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044698&processid=000000010404437&processtype=DEAL','集团客户投诉工单','JT-346-200810-00016');return false" target="_blank">
+							2020-08-12 12:25:35
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044698&processid=000000010404437&processtype=DEAL','集团客户投诉工单','JT-346-200810-00016');return false" target="_blank">
+							2020-08-12 10:39:13
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044698&processid=000000010404437&processtype=DEAL','集团客户投诉工单','JT-346-200810-00016');return false" target="_blank">
+							处理中
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044698&processid=000000010404437&processtype=DEAL','集团客户投诉工单','JT-346-200810-00016');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppyellow.png' title='未完成,已超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('/arsys/forms/ultraeoms4/WF:CRM_CCH_DX//?eid=000000000044698&processid=000000010404437&processtype=DEAL','集团客户投诉工单','JT-346-200810-00016');return false" target="_blank">
+  							集团客户投诉工单：签署省份未知：深圳市腾讯计算机系统有限公司反馈-1.2020-08-10 12:01:44,湖北移动 到 金华、武汉、北京、沈阳、南昌、青岛、泰州、淮南 丢包5.31%；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  			</table>
+  			</div>
+  			<br>
+  			<div class="cutline">
+				<input type="hidden" name="txtSortfiled" id="txtSortfiled" value="StDate">
+				<input type="hidden" name="sortType" id="sortType" value="1">
+				<input type="hidden" name="action" id="sortType" value="DEAL">
+  			</div>
+     </form>
+     
+     <script type="text/javascript">
+		function openSheet(url,basename,basesn) {
+			var winObj = window.open(url);
+			//异步发送操作日志内容
+			$.ajax({
+				url:"/cmcceoms/other/sendMsg.action",
+				type:"POST",
+				dataType:"json",
+				data:{"resouse":basename,"resousekey":basesn,"action":"查看","module":"工单"},
+				success:function(data) {}
+			});
+		}
+		
+		// 批量审批
+		function openMultiAudit(url) {
+			window.open(url);
+		}
+     </script>
+      
+  </body>
+
+</html>
+

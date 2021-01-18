@@ -2,10 +2,9 @@ package main
 
 import (
 	"sync"
-
 )
 
-func main() {
+func main3() {
 	var wg sync.WaitGroup
 	wg.Add(2)
 

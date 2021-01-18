@@ -1,0 +1,101 @@
+<tr class="tablecontent_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=a45cebad6d0046669568c4297755fb8a&taskID=96d838dd46724d20a8b6b12d3a9f6669&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000559');return false" target="_blank">
+  							JT-051-20200802-000559
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=a45cebad6d0046669568c4297755fb8a&taskID=96d838dd46724d20a8b6b12d3a9f6669&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000559');return false" target="_blank">
+  							核心网专业T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=a45cebad6d0046669568c4297755fb8a&taskID=96d838dd46724d20a8b6b12d3a9f6669&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000559');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=a45cebad6d0046669568c4297755fb8a&taskID=96d838dd46724d20a8b6b12d3a9f6669&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000559');return false" target="_blank">
+							2020-08-03 03:16:26
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=a45cebad6d0046669568c4297755fb8a&taskID=96d838dd46724d20a8b6b12d3a9f6669&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000559');return false" target="_blank">
+							2020-08-02 23:16:26
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=a45cebad6d0046669568c4297755fb8a&taskID=96d838dd46724d20a8b6b12d3a9f6669&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000559');return false" target="_blank">
+							待处理
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=a45cebad6d0046669568c4297755fb8a&taskID=96d838dd46724d20a8b6b12d3a9f6669&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000559');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=a45cebad6d0046669568c4297755fb8a&taskID=96d838dd46724d20a8b6b12d3a9f6669&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000559');return false" target="_blank">
+  							故障处理工单：NFV_西南大区:APP-XNCDscVOLTETAS001BHW-01AHW012+2020-08-02 22:45:00+域选到CS接通率低于一级门限；
+  						</a>
+  					</td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross_likebpp" onMouseOver="FocusRowTwoDn(this)" onMouseOut="BlurRowTwoDn(this)">
+  				
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=36e664a450384d35978e1f0019643f7f&taskID=77e6e112a1934439b93e6a0f4e8e7fdc&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000540');return false" target="_blank">
+  							JT-051-20200802-000540
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=36e664a450384d35978e1f0019643f7f&taskID=77e6e112a1934439b93e6a0f4e8e7fdc&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000540');return false" target="_blank">
+  							承载传输T1组
+  						</a>
+  					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=36e664a450384d35978e1f0019643f7f&taskID=77e6e112a1934439b93e6a0f4e8e7fdc&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000540');return false" target="_blank">
+  							
+  						</a>
+  					</td>
+  					
+					
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=36e664a450384d35978e1f0019643f7f&taskID=77e6e112a1934439b93e6a0f4e8e7fdc&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000540');return false" target="_blank">
+							2020-08-03 02:41:05
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=36e664a450384d35978e1f0019643f7f&taskID=77e6e112a1934439b93e6a0f4e8e7fdc&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000540');return false" target="_blank">
+							2020-08-02 22:41:05
+						</a>
+					</td>
+					<td>
+						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=36e664a450384d35978e1f0019643f7f&taskID=77e6e112a1934439b93e6a0f4e8e7fdc&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000540');return false" target="_blank">
+							待处理
+						</a>
+					</td>
+  					<td>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=36e664a450384d35978e1f0019643f7f&taskID=77e6e112a1934439b93e6a0f4e8e7fdc&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000540');return false" target="_blank">
+  							否
+  						</a>
+  					</td>
+  					<td><img src='/cmcceoms/images/default/bppgray.png' title='未完成,未超时' /></td>
+  				</tr>
+  				
+  				<tr class="tablecontent_cross" onMouseOver="FocusRowTwoUp(this)" onMouseOut="BlurRowTwoUp(this)">
+  				
+  					<td colspan=9>
+  						<a href="javascript:void(0);" onclick="openSheet('http://10.14.2.169/eoms5/ultrabpp/view.action?baseSchema=JT_EL_TTM_JT_TTH&baseID=36e664a450384d35978e1f0019643f7f&taskID=77e6e112a1934439b93e6a0f4e8e7fdc&mode=MODIFY&sid=2374683921772','故障处理工单','JT-051-20200802-000540');return false" target="_blank">
+  							故障处理工单：集团:骨干PhyMbusNode ccc2/18发生设备板卡故障告警；
+  						</a>
+  					</td>
+  				</tr>
